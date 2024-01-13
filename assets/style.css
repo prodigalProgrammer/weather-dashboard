@@ -2,3 +2,6 @@
   border-top-right-radius: 7px !important;
   border-bottom-right-radius: 7px !important;
 }
+.hide {
+  display: none;
+}
