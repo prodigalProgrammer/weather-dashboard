@@ -2,7 +2,6 @@ var APIkey = "62aad06d0f51cd8bd14f3a7f60f5f57b";
 
 // When page loads for first time, localStorage would be empty so the function 'getCities' would not work. This circumvents that. Also retrieves localStorage information if present.
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
-console.log(cities);
 
 // Icon generation for the weather information.
 var weatherIcons = {
@@ -21,6 +20,14 @@ var weatherIcons = {
 // Hides main weather display.
 $("#today").hide();
 
+// Makes my intro message animate at all times.
+$(document).ready(function () {
+  setInterval(bouncy, 1000);
+});
+function bouncy() {
+  $("#intro").animate({ top: 0 }).animate({ top: 10 });
+}
+
 // ------------------------------------------------
 // RETRIEVING ARRAY FROM LOCAL STORAGE
 // ------------------------------------------------
@@ -34,7 +41,9 @@ function getCities() {
   } else {
     for (var storedCity of cities) {
       $("#history").prepend(
-        $("<button>").addClass("btn btn-dark mb-3 stored-city").text(storedCity)
+        $("<button>")
+          .addClass("btn btn-secondary mb-3 stored-city")
+          .text(storedCity)
       );
     }
   }
@@ -206,7 +215,6 @@ $("#search-button").on("click", function (event) {
       }
       // Testing for once valid city is entered.
       else {
-        console.log(cities);
         // Hiding intro message.
         $("#intro").hide();
 
@@ -220,7 +228,7 @@ $("#search-button").on("click", function (event) {
 
         // City searches get added to '#history' div.
         var historyButton = $("<button>").text(city);
-        historyButton.addClass("btn btn-dark mb-3 stored-city");
+        historyButton.addClass("btn btn-secondary mb-3 stored-city");
         $("#history").prepend(historyButton);
 
         // Adding a border for a clearly defined section.
