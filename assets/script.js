@@ -2,6 +2,7 @@ var APIkey = "62aad06d0f51cd8bd14f3a7f60f5f57b";
 
 // When page loads for first time, localStorage would be empty so the function 'getCities' would not work. This circumvents that. Also retrieves localStorage information if present.
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
+console.log(cities);
 
 // Icon generation for the weather information.
 var weatherIcons = {
@@ -33,9 +34,7 @@ function getCities() {
   } else {
     for (var storedCity of cities) {
       $("#history").prepend(
-        $("<button>")
-          .addClass("btn btn-outline-secondary mb-3 stored-city")
-          .text(storedCity)
+        $("<button>").addClass("btn btn-dark mb-3 stored-city").text(storedCity)
       );
     }
   }
@@ -68,7 +67,7 @@ $("#history").on("click", ".stored-city", function () {
       $("#forecast").show();
 
       // Clearing the contents for any new entries.
-      $("#today").empty().addClass("bg-info-subtle rounded");
+      $("#today").empty().addClass("bg-dark rounded");
       $("#forecast").empty();
 
       // Logic for displaying City information.
@@ -115,7 +114,7 @@ $("#history").on("click", ".stored-city", function () {
       for (var i = 0; i < 5; ++i) {
         // Creating content for the cards.
         var weatherCard = $("<article>").addClass(
-          "bg-dark-subtle shadow p-3 rounded weather-card"
+          "bg-dark shadow p-lg-3 rounded weather-card"
         );
 
         var cardDate = $("<h5>").text(
@@ -193,16 +192,21 @@ $("#search-button").on("click", function (event) {
         $("#search-input").val("");
       }
 
-      // Message for blank search input.
+      // Testing for a blank search input.
       if ($("#search-input").val().trim() === "") {
         displayIntroMsg("Please search for a City first.");
 
-        // Message for invalid city.
+        // Testing for an invalid city.
       } else if (data.message === "city not found") {
         displayIntroMsg("City not found. Please try again!");
 
-        // Testing for once valid city is entered.
-      } else {
+        // Testing to see if City has already been searched.
+      } else if (cities.includes(city)) {
+        displayIntroMsg("This City has already been searched.");
+      }
+      // Testing for once valid city is entered.
+      else {
+        console.log(cities);
         // Hiding intro message.
         $("#intro").hide();
 
@@ -216,11 +220,11 @@ $("#search-button").on("click", function (event) {
 
         // City searches get added to '#history' div.
         var historyButton = $("<button>").text(city);
-        historyButton.addClass("btn btn-outline-secondary mb-3 stored-city");
+        historyButton.addClass("btn btn-dark mb-3 stored-city");
         $("#history").prepend(historyButton);
 
         // Adding a border for a clearly defined section.
-        $("#today").addClass("bg-info-subtle rounded");
+        $("#today").addClass("bg-dark rounded");
 
         // Logic for displaying City information.
         var cityTitle = $("<h2>")
@@ -275,7 +279,7 @@ $("#search-button").on("click", function (event) {
         for (var i = 0; i < 5; ++i) {
           // Creating content for the cards.
           var weatherCard = $("<article>").addClass(
-            "bg-dark-subtle shadow p-3 rounded weather-card"
+            "bg-dark shadow p-3 rounded weather-card"
           );
 
           var cardDate = $("<h5>").text(

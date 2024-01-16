@@ -3,13 +3,20 @@
   border-bottom-right-radius: 7px !important;
 }
 
-.weather-card,
-.weather-header,
+/* .weather-card,
 #today {
   background-image: linear-gradient(
     rgb(10, 1, 33) 0%,
     rgba(29, 2, 111, 0.5) 100%
   );
+} */
+.weather-card,
+.weather-header,
+.stored-city,
+#search-button,
+#intro,
+#today {
+  background-image: var(--bs-gradient);
 }
 
 #today *,
