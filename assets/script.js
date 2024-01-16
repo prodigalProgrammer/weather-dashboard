@@ -42,7 +42,7 @@ function getCities() {
     for (var storedCity of cities) {
       $("#history").prepend(
         $("<button>")
-          .addClass("btn btn-secondary mb-3 stored-city")
+          .addClass("btn btn-secondary mb-3  stored-city")
           .text(storedCity)
       );
     }
@@ -111,20 +111,22 @@ $("#history").on("click", ".stored-city", function () {
 
       // Creating forecast title.
       $("#forecast").append(
-        $("<h3>").addClass("text-dark").text("5-Day Forecast:")
+        $("<h3>")
+          .addClass("text-dark text-center text-xl-start")
+          .text("5-Day Forecast:")
       );
 
       var forecast = $("<div>").addClass(
-        "d-flex flex-row justify-content-between"
+        "d-flex flex-row justify-content-around justify-content-xxl-between flex-wrap"
       );
 
       $("#forecast").append(forecast);
 
       for (var i = 0; i < 5; ++i) {
         // Creating content for the cards.
-        var weatherCard = $("<article>").addClass(
-          "bg-dark shadow p-lg-3 rounded weather-card"
-        );
+        var weatherCard = $("<article>")
+          .addClass("bg-dark shadow p-3 mb-4 rounded weather-card")
+          .css({ width: "200px" });
 
         var cardDate = $("<h5>").text(
           dayjs()
@@ -275,20 +277,22 @@ $("#search-button").on("click", function (event) {
 
         // Creating forecast title.
         $("#forecast").append(
-          $("<h3>").addClass("text-dark").text("5-Day Forecast:")
+          $("<h3>")
+            .addClass("text-xl-start text-center text-dark")
+            .text("5-Day Forecast:")
         );
 
         var forecast = $("<div>").addClass(
-          "d-flex flex-row justify-content-between"
+          "d-flex flex-row flex-wrap justify-content-around justify-content-xxl-between"
         );
 
         $("#forecast").append(forecast);
 
         for (var i = 0; i < 5; ++i) {
           // Creating content for the cards.
-          var weatherCard = $("<article>").addClass(
-            "bg-dark shadow p-3 rounded weather-card"
-          );
+          var weatherCard = $("<article>")
+            .addClass("bg-dark shadow p-3 mb-4 rounded weather-card")
+            .css({ width: "200px" });
 
           var cardDate = $("<h5>").text(
             dayjs()
