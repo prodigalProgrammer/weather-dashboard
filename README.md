@@ -10,7 +10,7 @@ There is a main card which will show the population, country code and name of th
 
 Below the main card are additional cards that show up to five days of forecast information. Once you have searched for a city, it will show up in the history section where the same information can be accessed again by clicking that specific city's button.
 
-_Find the link to the the deployed website [here]()_
+_Find the link to the the deployed website [here](https://prodigalprogrammer.github.io/weather-dashboard/)_
 
 <p align="right">(<a href="#weather-dashboard" >Back to top</a>)</p>
 
@@ -21,6 +21,11 @@ _Find the link to the the deployed website [here]()_
 - Blank entries will not be permitted.
 - You will be notified if your city's name is invalid.
 - The emoji shown next to each date signifies what type of weather to expect for that day.
+- Golden glow around all buttons.
+- Dashboard changes depending on screen width.
+- Ternary operator determines whether a city is a 'MEGA-CITY' (population over 1 million) or not.
+- Nice gradient over all backgrounds including the buttons.
+- Information bar is styled and animates upon page loading.
 
 <p align="right">(<a href="#weather-dashboard" >Back to top</a>)</p>
 
