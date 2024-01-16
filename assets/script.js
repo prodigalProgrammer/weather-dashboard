@@ -2,7 +2,7 @@ var APIkey = "62aad06d0f51cd8bd14f3a7f60f5f57b";
 
 // When page loads for first time, localStorage would be empty so the function 'getCities' would not work. This circumvents that. Also retrieves localStorage information if present.
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
-console.log(cities);
+
 // Icon generation for the weather information.
 var weatherIcons = {
   Thunderstorm: "⛈",
@@ -16,6 +16,13 @@ var weatherIcons = {
   Tornado: "🌪",
   Sand: "🏜",
 };
+
+// Hides main weather display.
+$("#today").hide();
+
+// ------------------------------------------------
+// RETRIEVING ARRAY FROM LOCAL STORAGE
+// ------------------------------------------------
 
 function getCities() {
   // When the page loads for the first time, there will be no items in localStorage.
@@ -37,6 +44,10 @@ function getCities() {
 // Run function as soon as page loads.
 getCities();
 
+// ------------------------------------------------
+// CLICKING ON STORED CITY BUTTONS
+// ------------------------------------------------
+
 $("#history").on("click", ".stored-city", function () {
   var cityStored = $(this).text();
   var storedURL =
@@ -50,7 +61,6 @@ $("#history").on("click", ".stored-city", function () {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       $("#intro").hide();
 
       // Showing the weather display.
@@ -58,11 +68,8 @@ $("#history").on("click", ".stored-city", function () {
       $("#forecast").show();
 
       // Clearing the contents for any new entries.
-      $("#today")
-        .empty()
-        .addClass(
-          "border border-primary border-start-0 border-end-0 bg-info-subtle"
-        );
+      $("#today").empty().addClass("bg-info-subtle rounded");
+      $("#forecast").empty();
 
       // Logic for displaying City information.
       var cityTitle = $("<h2>")
@@ -89,8 +96,66 @@ $("#history").on("click", ".stored-city", function () {
         "Humidity: " + data.list[0].main.humidity + "%"
       );
       $("#today").append(cityTitle, cityPop, temp, wind, humidity);
+
+      // -----------------------------------------
+      // CREATING THE 5-DAY FORECAST
+      // -----------------------------------------
+
+      // Creating forecast title.
+      $("#forecast").append(
+        $("<h3>").addClass("text-dark").text("5-Day Forecast:")
+      );
+
+      var forecast = $("<div>").addClass(
+        "d-flex flex-row justify-content-between"
+      );
+
+      $("#forecast").append(forecast);
+
+      for (var i = 0; i < 5; ++i) {
+        // Creating content for the cards.
+        var weatherCard = $("<article>").addClass(
+          "bg-dark-subtle shadow p-3 rounded weather-card"
+        );
+
+        var cardDate = $("<h5>").text(
+          dayjs()
+            .add(i + 1, "day")
+            .format("DD/MM/YYYY")
+        );
+
+        var cardEmoji = $("<h2>").text(
+          weatherIcons[data.list[(i + 1) * 8 - 1].weather[0].main]
+        );
+
+        var cardTemp = $("<p>").text(
+          "Temperature: " +
+            (data.list[(i + 1) * 8 - 1].main.temp - 273.15).toFixed(2) +
+            " °C"
+        );
+        var cardWind = $("<p>").text(
+          "Wind: " + data.list[(i + 1) * 8 - 1].wind.speed + " KPH"
+        );
+        var cardHumidity = $("<p>").text(
+          "Humidity: " + data.list[(i + 1) * 8 - 1].main.humidity + "%"
+        );
+
+        weatherCard.append(
+          cardDate,
+          cardEmoji,
+          cardTemp,
+          cardWind,
+          cardHumidity
+        );
+
+        forecast.append(weatherCard);
+      }
     });
 });
+
+// ------------------------------------------------
+// CLICKING ON SEARCH BUTTON
+// ------------------------------------------------
 
 $("#search-button").on("click", function (event) {
   event.preventDefault();
@@ -111,8 +176,6 @@ $("#search-button").on("click", function (event) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
-
       // Function for testing search input issues.
       function displayIntroMsg(msg) {
         $("#intro").show();
@@ -149,6 +212,7 @@ $("#search-button").on("click", function (event) {
 
         // Clearing the contents for any new entries.
         $("#today").empty();
+        $("#forecast").empty();
 
         // City searches get added to '#history' div.
         var historyButton = $("<button>").text(city);
@@ -156,9 +220,7 @@ $("#search-button").on("click", function (event) {
         $("#history").prepend(historyButton);
 
         // Adding a border for a clearly defined section.
-        $("#today").addClass(
-          "border border-primary border-start-0 border-end-0 bg-info-subtle"
-        );
+        $("#today").addClass("bg-info-subtle rounded");
 
         // Logic for displaying City information.
         var cityTitle = $("<h2>")
@@ -194,6 +256,60 @@ $("#search-button").on("click", function (event) {
 
         // Clearing search input for next search.
         $("#search-input").val("");
+
+        // -----------------------------------------
+        // CREATING THE 5-DAY FORECAST
+        // -----------------------------------------
+
+        // Creating forecast title.
+        $("#forecast").append(
+          $("<h3>").addClass("text-dark").text("5-Day Forecast:")
+        );
+
+        var forecast = $("<div>").addClass(
+          "d-flex flex-row justify-content-between"
+        );
+
+        $("#forecast").append(forecast);
+
+        for (var i = 0; i < 5; ++i) {
+          // Creating content for the cards.
+          var weatherCard = $("<article>").addClass(
+            "bg-dark-subtle shadow p-3 rounded weather-card"
+          );
+
+          var cardDate = $("<h5>").text(
+            dayjs()
+              .add(i + 1, "day")
+              .format("DD/MM/YYYY")
+          );
+
+          var cardEmoji = $("<h2>").text(
+            weatherIcons[data.list[(i + 1) * 8 - 1].weather[0].main]
+          );
+
+          var cardTemp = $("<p>").text(
+            "Temperature: " +
+              (data.list[(i + 1) * 8 - 1].main.temp - 273.15).toFixed(2) +
+              " °C"
+          );
+          var cardWind = $("<p>").text(
+            "Wind: " + data.list[(i + 1) * 8 - 1].wind.speed + " KPH"
+          );
+          var cardHumidity = $("<p>").text(
+            "Humidity: " + data.list[(i + 1) * 8 - 1].main.humidity + "%"
+          );
+
+          weatherCard.append(
+            cardDate,
+            cardEmoji,
+            cardTemp,
+            cardWind,
+            cardHumidity
+          );
+
+          forecast.append(weatherCard);
+        }
       }
     });
 });

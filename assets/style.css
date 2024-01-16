@@ -2,3 +2,17 @@
   border-top-right-radius: 7px !important;
   border-bottom-right-radius: 7px !important;
 }
+
+.weather-card,
+.weather-header,
+#today {
+  background-image: linear-gradient(
+    rgb(10, 1, 33) 0%,
+    rgba(29, 2, 111, 0.5) 100%
+  );
+}
+
+#today *,
+#forecast * {
+  color: #fff;
+}
